@@ -9,7 +9,7 @@ url='https://github.com/misson20000/twili-libnx'
 license=(ISC)
 options=(!strip staticlibs)
 makedepends=('devkitpro-pkgbuild-helpers')
-source=("git+https://github.com/misson2000/twili-libnx.git")
+source=("git+https://github.com/misson20000/twili-libnx.git")
 sha256sums=("SKIP")
 
 pkgver() {

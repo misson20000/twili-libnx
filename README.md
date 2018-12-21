@@ -8,7 +8,7 @@ This is a small library for interacting with Twili stdio through libnx.
 $ cd /tmp
 $ mkdir twili-libnx
 $ cd twili-libnx
-$ wget https://github.com/misson20000/twili-libnx/blob/master/PKGBUILD
+$ wget https://github.com/misson20000/twili-libnx/raw/master/PKGBUILD
 $ makepkg -si
 ```
 
