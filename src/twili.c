@@ -103,6 +103,10 @@ static ssize_t twiliWrite(Service *pipe, struct _reent *r, void *fd, const char 
 	}
 }
 
+Result twiliWriteNamedPipe(Service *pipe, const char *ptr, size_t len) {
+    twiliWrite(pipe, NULL, NULL, ptr, len);
+}
+
 static ssize_t twiliRead(Service *pipe, struct _reent *r, void *fd, char *ptr, size_t len) {
 	IpcCommand c;
 	ipcInitialize(&c);
@@ -169,6 +173,40 @@ static const inline devoptab_t twiliMakeDotab(const char *name, ssize_t (*write_
 		.deviceData = NULL
 	};
 	return ret;
+}
+
+Result twiliCreateNamedOutputPipe(Service *srv_out, const char* name, size_t len) {
+	IpcCommand c;
+	ipcInitialize(&c);
+
+	struct {
+		u64 magic;
+		u64 cmd_id;
+	} *raw;
+
+	ipcAddSendBuffer(&c, name, len, 0);
+	raw = ipcPrepareHeader(&c, sizeof(*raw));
+
+	raw->magic = SFCI_MAGIC;
+	raw->cmd_id = 10;
+
+	Result rc = serviceIpcDispatch(&g_twiliSrv);
+	if(R_SUCCEEDED(rc)) {
+		IpcParsedCommand r;
+		ipcParse(&r);
+
+		struct {
+			u64 magic;
+			u64 result;
+		} *resp = r.Raw;
+
+		rc = resp->result;
+
+		if(R_SUCCEEDED(rc)) {
+			serviceCreate(srv_out, r.Handles[0]);
+		}
+	}
+    return rc;
 }
     
 Result twiliInitialize(void) {
