@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018, misson20000
+  Copyright (c) 2019 misson20000
 
   Permission to use, copy, modify, and/or distribute this software for any purpose
   with or without fee is hereby granted, provided that the above copyright notice
